@@ -1,0 +1,4 @@
+name: plugin
+version: '${version}'
+main: com.swingalytica.plugin.Plugin
+api-version: '26.2'
