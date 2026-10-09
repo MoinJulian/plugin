@@ -4,15 +4,21 @@ import com.swingalytica.plugin.commands.EnderchestCommand;
 import com.swingalytica.plugin.commands.FlyCommand;
 import com.swingalytica.plugin.homes.HomeCommand;
 import com.swingalytica.plugin.homes.HomeManager;
+import com.swingalytica.plugin.recipes.HoneyStickyPiston;
 import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Plugin extends JavaPlugin {
 
+    private HoneyStickyPiston honeyStickyPiston;
+
     @Override
     public void onEnable() {
         HomeManager homeManager = new HomeManager(this);
+
+        honeyStickyPiston = new HoneyStickyPiston(this);
+        honeyStickyPiston.register();
 
         this.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event -> {
             final Commands commands = event.registrar();
@@ -28,6 +34,8 @@ public final class Plugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        if (honeyStickyPiston!= null) {
+            honeyStickyPiston.unregister();
+        }
     }
 }
