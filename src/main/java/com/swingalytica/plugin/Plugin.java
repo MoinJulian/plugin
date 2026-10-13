@@ -5,6 +5,7 @@ import com.swingalytica.plugin.commands.FlyCommand;
 import com.swingalytica.plugin.homes.HomeCommand;
 import com.swingalytica.plugin.homes.HomeManager;
 import com.swingalytica.plugin.recipes.HoneyStickyPiston;
+import com.swingalytica.plugin.recipes.HoneyToSlimeToHoney;
 import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -12,6 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class Plugin extends JavaPlugin {
 
     private HoneyStickyPiston honeyStickyPiston;
+    private HoneyToSlimeToHoney honeyToSlimeToHoney;
 
     @Override
     public void onEnable() {
@@ -19,6 +21,11 @@ public final class Plugin extends JavaPlugin {
 
         honeyStickyPiston = new HoneyStickyPiston(this);
         honeyStickyPiston.register();
+
+        honeyToSlimeToHoney = new HoneyToSlimeToHoney(this);
+        honeyToSlimeToHoney.register();
+
+        new SleepVoting(50).register();
 
         this.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event -> {
             final Commands commands = event.registrar();
@@ -34,8 +41,12 @@ public final class Plugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        if (honeyStickyPiston!= null) {
+        if (honeyStickyPiston != null) {
             honeyStickyPiston.unregister();
+        }
+
+        if (honeyToSlimeToHoney != null) {
+            honeyToSlimeToHoney.unregister();
         }
     }
 }
